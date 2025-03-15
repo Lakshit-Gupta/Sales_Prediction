@@ -1,59 +1,41 @@
 # 📈 Temporal Fusion Transformer (TFT) for Sales Prediction
 
-This project implements a **Temporal Fusion Transformer (TFT)** model for sales prediction, inspired by the **Microsoft Hackathon**. The TFT model efficiently captures both short-term and long-term dependencies in time series data while providing **interpretable** insights into feature importance. This makes it highly suitable for forecasting applications in retail, finance, and other industries.
+This project utilizes the **Temporal Fusion Transformer (TFT)** model for accurate sales forecasting. By leveraging **multi-horizon forecasting**, attention mechanisms, and advanced feature engineering, the model aims to provide precise predictions across different stores and products. This project was inspired by the **Microsoft Hackathon**.
 
 ---
 
 ## 💻 Run Locally
 
-Clone the project repository:
+Clone the project:
 
 ```bash
-git clone https://github.com/YourUsername/TFT_Sales_Prediction.git
+git clone https://github.com/Lakshit-Gupta/Sales_Prediction.git
 ```
 
-Navigate to the project directory:
+Go to the project directory:
 
 ```bash
-cd TFT_Sales_Prediction
+cd Sales_Prediction
 ```
-
----
 
 ## 📥 Dataset and Model Download
-
-The dataset and pretrained model for this project are available in the **[Releases](https://github.com/YourUsername/TFT_Sales_Prediction/releases)** section. Click the link to download the necessary files.
-
----
+The dataset and pre-trained models for this project are available in the **[Releases](https://github.com/Lakshit-Gupta/Sales_Prediction/releases)** section. Click the link to download the necessary files.
 
 ## ⚙️ Resolving Dependencies
-
-If using **Anaconda**, install dependencies by running:
+If using Anaconda, use the following command in the base (root) terminal to install dependencies:
 
 ```bash
 conda env create -f environment.yaml
 ```
 ```bash
-conda activate tft_env
+conda activate sales_prediction
 ```
-
-Alternatively, use pip:
-```bash
-pip install -r requirements.txt
-```
-
----
 
 ## 🚀 How to Run the Application
+Run the main application script using the following command:
 
-To train and evaluate the TFT model, run the following command:
 ```bash
-python train.py
-```
-
-For inference on test data, execute:
-```bash
-python predict.py
+python main.py
 ```
 
 ---
@@ -63,76 +45,72 @@ python predict.py
 ### CPU Version
 
 ```bash
-docker pull yourusername/tft_sales_prediction:latest
+docker pull lakshitgupta/sales_prediction:v1.0
 ```
 ```bash
-docker run -p 8501:8501 yourusername/tft_sales_prediction:latest
+docker run -p 8501:8501 lakshitgupta/sales_prediction:v1.0
 ```
-Then open:
+Then go to:
 ```bash
-http://localhost:8501
+localhost:8501
 ```
 
 ### GPU Version
 
 ```bash
-docker pull yourusername/tft_sales_prediction_gpu:latest
+docker pull lakshitgupta/sales_prediction_gpu:v1.0
 ```
 ```bash
-docker run --gpus all -p 8501:8501 yourusername/tft_sales_prediction_gpu:latest
+docker run --gpus all -p 8501:8501 sales_prediction_gpu:v1.0
 ```
-Then open:
+Then go to:
 ```bash
-http://localhost:8501
+localhost:8501
 ```
 
 ---
 
 ## 📂 Dataset Structure
 
-The dataset consists of sales data across multiple stores and items, formatted as follows:
+The dataset contains historical sales data, including:
 
-```
-sales_data/
-│── train.csv   # Training data
-│── val.csv     # Validation data
-│── test.csv    # Test data
-```
-
-Each row contains:
-- `store_nbr`: Store identifier
-- `item_nbr`: Item identifier
-- `time_idx`: Sequential time index
-- `sales`: Target variable
-- `other_features`: Additional time-dependent and static features
+- **Store ID**: Unique identifier for each store.
+- **Item ID**: Unique identifier for each product.
+- **Time Index**: Temporal order of sales data.
+- **Sales**: Target variable to be predicted.
+- **Additional Features**: Promotional data, seasonal effects, and external covariates.
 
 ---
 
 ## 🏗️ Model Architecture
 
-The **Temporal Fusion Transformer (TFT)** model consists of:
+This project implements the **Temporal Fusion Transformer (TFT)**, which is a state-of-the-art deep learning model for time-series forecasting.
 
-- **Variable Selection Network (VSN)**: Dynamically selects relevant features.
-- **Gated Residual Networks (GRN)**: Handles non-linear transformations.
-- **Temporal Self-Attention Layer**: Captures long-term dependencies.
-- **Interpretable Attention Mechanisms**: Highlights important features.
+- **Multi-Horizon Forecasting**: Predicts future sales for different time periods.
+- **Attention Mechanisms**: Identifies key patterns in the data.
+- **Feature Engineering**: Uses categorical and continuous variables for better predictions.
+- **Optimization**: AdamW optimizer with learning rate decay.
 
 ### 🔹 Model Summary
 
 ```
-Input: Multiple categorical and continuous time-series features
+Input: (Batch Size, Time Steps, Features)
 Temporal Fusion Transformer (TFT) Model
-Fully Connected Layers (For Forecasting)
-Output: Multi-step Sales Predictions
+Multi-Head Attention Mechanism
+Gated Residual Networks (GRN)
+Variable Selection Networks (VSN)
+Output: Future Sales Predictions
 ```
 
 ---
 
 ## 🎯 Training & Optimization
 
-- **Optimizer Choices:** AdamW (Recommended), RMSprop
-- **Loss Function:** Quantile Loss for probabilistic forecasting
-- **Hyperparameter Tuning:** KerasTuner for tuning learning rate, dropout, and model depth
+- **Optimizer Choices:** AdamW (Recommended), RMSprop, SGD with Momentum
+- **Loss Functions Explored:**
+  - Quantile Loss (for multi-step forecasting)
+  - Mean Squared Error (MSE)
+  - Huber Loss (to handle outliers)
 - **Callbacks:** Early Stopping, ReduceLROnPlateau, Model Checkpointing
 
 ---
@@ -141,29 +119,32 @@ Output: Multi-step Sales Predictions
 
 The model was evaluated on the **test set**, achieving the following performance:  
 
-| Metric            | Score  |
-|------------------|--------|
-| **MAE**         | **1.34** |
-| **RMSE**        | **2.17** |
-| **Quantile Loss** | **0.92** |
+| Metric         | Score  |
+|---------------|--------|
+| **MAE**       | **X.XX** |
+| **RMSE**      | **X.XX** |
+| **R-Squared** | **X.XX** |
 
-### 📌 Feature Importance (Interpretable Attention)  
-The TFT model provides insights into the most influential features, allowing businesses to understand key drivers of sales trends.
+### 📌 Forecast Visualization  
+The model produces interpretable forecasts with attention scores that highlight important input features over time.
 
 ---
 
 ## 📌 Future Improvements  
 
-- **📈 Extend to multi-horizon forecasting.**  
-- **🧠 Enhance interpretability with SHAP analysis.**  
-- **⚡ Optimize inference for real-time predictions.**  
-- **📊 Explore additional external features (holidays, promotions).**  
+- **📊 Incorporate more external covariates (e.g., weather, holidays).**  
+- **📈 Enhance feature engineering with domain-specific knowledge.**  
+- **🧠 Implement model ensembling to improve robustness.**  
+- **🔍 Fine-tune hyperparameters using Bayesian Optimization.**  
 
 ---
 
 ## 🤝 Contributors
 
-- **[Your Name]**
+- **[Lakshit Gupta]**
+- **[Athira Ravi Pillai]**
+- **[Krish Jain]**
+- **[Jinia Goel]**
 
 For any questions, feel free to reach out!
 
@@ -171,6 +152,6 @@ For any questions, feel free to reach out!
 
 ## 🏆 Acknowledgments
 
-- **Microsoft Hackathon** for inspiration
-- **Research papers on interpretable deep learning models for time series forecasting**
+- Microsoft Hackathon
+- Research papers on time-series forecasting
 
